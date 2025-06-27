@@ -139,8 +139,15 @@ function drawScores() {
 }
 
 function checkCollisions() {
-  if (ball.collides(leftPaddle)) ball.bounce(true);
-  if (ball.collides(rightPaddle)) ball.bounce(false);
+  if (ball.collides(leftPaddle)) {
+    leftPaddle.speed += 0.5;
+    ball.bounce(true); // ball handles its own speed += 1
+  }
+
+  if (ball.collides(rightPaddle)) {
+    rightPaddle.speed += 0.5;
+    ball.bounce(false);
+  }
 }
 
 function checkScore() {
@@ -167,7 +174,12 @@ class Paddle {
     this.y = height / 2 - 50;
     this.w = 10;
     this.h = 100;
-    this.speed = 5;
+    this.baseSpeed = 7;
+    this.speed = this.baseSpeed;
+  }
+
+  resetSpeed() {
+    this.speed = this.baseSpeed;
   }
 
   update(upKey, downKey) {
