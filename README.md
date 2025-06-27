@@ -25,7 +25,7 @@ This version includes:
 
 ## 🌐 Play It Live
 
-**👉 [Click here to play](https://yourusername.github.io/Daelen_Pong/)**  
+**👉 [Click here to play](https://daelenwall.github.io/Daelen_Pong/)**  
 *(Replace with your actual GitHub Pages link once deployed)*
 
 ## 🧠 How It Works
