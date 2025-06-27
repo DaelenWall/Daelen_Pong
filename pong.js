@@ -23,6 +23,8 @@ function preload() {
 
 function setup() {
   createCanvas(800, 600);
+  leftPaddle = new Paddle(20);
+  rightPaddle = new Paddle(width - 30);
   resetGame();
 }
 
@@ -115,8 +117,8 @@ function mousePressed() {
 }
 
 function resetGame() {
-  leftPaddle = new Paddle(20);
-  rightPaddle = new Paddle(width - 30);
+  leftPaddle.resetSpeed();
+  rightPaddle.resetSpeed();
   ball = new Ball();
   leftScore = 0;
   rightScore = 0;
@@ -154,6 +156,8 @@ function checkScore() {
   if (ball.x < 0) {
     rightScore++;
     pointSound.play();
+    leftPaddle.resetSpeed();
+    rightPaddle.resetSpeed();
     if (rightScore === winningScore) {
       winner = 'right';
     }
@@ -178,9 +182,10 @@ class Paddle {
     this.speed = this.baseSpeed;
   }
 
-  resetSpeed() {
-    this.speed = this.baseSpeed;
-  }
+resetSpeed() {
+  this.speed = this.baseSpeed;
+  console.log(`Paddle speed reset to ${this.speed}`);
+}
 
   update(upKey, downKey) {
     if (keyIsDown(keyCodeFor(upKey)) && this.y > 0) this.y -= this.speed;
