@@ -4,7 +4,14 @@ let leftScore = 0;
 let rightScore = 0;
 let winningScore = 11;
 let winner = null;
-let winTime = null;
+let restartButton = {
+  x: 0,
+  y: 0,
+  w: 200,
+  h: 60,
+  visible: false
+};
+
 
 function setup() {
   createCanvas(800, 600);
@@ -24,10 +31,11 @@ function draw() {
     textAlign(CENTER);
     text("WINNER", x, height / 2);
 
-    // After 4 seconds, reset game
-    if (millis() - winTime > 4000) {
-      resetGame();
-    }
+  restartButton.x = width / 2 - restartButton.w / 2;
+  restartButton.y = height / 2 + 20;
+  restartButton.visible = true;
+
+  drawRestartButton();
 
     return; // pause all gameplay
   }
@@ -44,6 +52,26 @@ function draw() {
   checkScore();
 }
 
+function drawRestartButton() {
+  fill(255);
+  rect(restartButton.x, restartButton.y, restartButton.w, restartButton.h, 10);
+  
+  fill(0);
+  textSize(24);
+  textAlign(CENTER, CENTER);
+  text("RESTART", restartButton.x + restartButton.w / 2, restartButton.y + restartButton.h / 2);
+}
+
+function mousePressed() {
+  if (restartButton.visible) {
+    const withinX = mouseX >= restartButton.x && mouseX <= restartButton.x + restartButton.w;
+    const withinY = mouseY >= restartButton.y && mouseY <= restartButton.y + restartButton.h;
+    if (withinX && withinY) {
+      resetGame();
+    }
+  }
+}
+
 function resetGame() {
   leftPaddle = new Paddle(20);
   rightPaddle = new Paddle(width - 30);
@@ -52,6 +80,7 @@ function resetGame() {
   rightScore = 0;
   winner = null;
   winTime = null;
+  restartButton.visible = false;
 }
 
 function drawCenterLine() {
@@ -78,14 +107,12 @@ function checkScore() {
     rightScore++;
     if (rightScore === winningScore) {
       winner = 'right';
-      winTime = millis();
     }
     ball = new Ball(true);
   } else if (ball.x > width) {
     leftScore++;
     if (leftScore === winningScore) {
       winner = 'left';
-      winTime = millis();
     }
     ball = new Ball(false);
   }
