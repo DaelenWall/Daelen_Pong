@@ -1,4 +1,4 @@
-# 🏓 Pong - Browser Edition
+# 🏓 Daelen Pong - Browser Edition
 
 A fun, fast-paced Pong game built with **p5.js** and vanilla JavaScript — hosted on GitHub Pages!
 
