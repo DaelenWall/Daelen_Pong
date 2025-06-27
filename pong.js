@@ -165,6 +165,8 @@ function checkScore() {
   } else if (ball.x > width) {
     leftScore++;
     pointSound.play();
+    leftPaddle.resetSpeed();
+    rightPaddle.resetSpeed();
     if (leftScore === winningScore) {
       winner = 'left';
     }
