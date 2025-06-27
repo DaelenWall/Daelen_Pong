@@ -11,7 +11,15 @@ let restartButton = {
   h: 60,
   visible: false
 };
+let bgMusic;
+let pointSound;
+let musicStarted = false;
+let gameStarted = false;
 
+function preload() {
+  bgMusic = loadSound("background.mp3");
+  pointSound = loadSound("point.mp3");
+}
 
 function setup() {
   createCanvas(800, 600);
@@ -22,6 +30,11 @@ function draw() {
   background(0);
   drawCenterLine();
   drawScores();
+
+  if (!gameStarted) {
+    drawStartButton();
+    return;
+  }
 
   // Show winner message and pause
   if (winner) {
@@ -52,6 +65,18 @@ function draw() {
   checkScore();
 }
 
+function drawStartButton() {
+  const x = width / 2 - 100;
+  const y = height / 2 - 30;
+  fill(255);
+  rect(x, y, 200, 60, 10);
+
+  fill(0);
+  textSize(28);
+  textAlign(CENTER, CENTER);
+  text("START GAME", x + 100, y + 30);
+}
+
 function drawRestartButton() {
   fill(255);
   rect(restartButton.x, restartButton.y, restartButton.w, restartButton.h, 10);
@@ -63,6 +88,23 @@ function drawRestartButton() {
 }
 
 function mousePressed() {
+  if (!gameStarted) {
+    const x = width / 2 - 100;
+    const y = height / 2 - 30;
+    const w = 200;
+    const h = 60;
+
+    const withinStart = mouseX >= x && mouseX <= x + w && mouseY >= y && mouseY <= y + h;
+    if (withinStart) {
+      bgMusic.setLoop(true);
+      bgMusic.setVolume(0.4);
+      bgMusic.play();
+      musicStarted = true;
+      gameStarted = true;
+      return;
+    }
+  }
+
   if (restartButton.visible) {
     const withinX = mouseX >= restartButton.x && mouseX <= restartButton.x + restartButton.w;
     const withinY = mouseY >= restartButton.y && mouseY <= restartButton.y + restartButton.h;
@@ -79,7 +121,6 @@ function resetGame() {
   leftScore = 0;
   rightScore = 0;
   winner = null;
-  winTime = null;
   restartButton.visible = false;
 }
 
@@ -105,12 +146,14 @@ function checkCollisions() {
 function checkScore() {
   if (ball.x < 0) {
     rightScore++;
+    pointSound.play();
     if (rightScore === winningScore) {
       winner = 'right';
     }
     ball = new Ball(true);
   } else if (ball.x > width) {
     leftScore++;
+    pointSound.play();
     if (leftScore === winningScore) {
       winner = 'left';
     }
