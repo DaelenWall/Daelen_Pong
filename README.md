@@ -5,8 +5,8 @@ A fun, fast-paced Pong game built with **p5.js** and vanilla JavaScript — host
 This version includes:
 - Paddle-vs-paddle action (W/S vs ↑/↓)
 - Win condition at 11 points
-- "WINNER" display + automatic game reset
-- Increasing ball speed with every rally — starts slow after each point
+- "WINNER" display + game reset mechanic
+- Increasing ball speed/paddle speed with every rally — both start slow after each point
 - Fully playable in your browser!
 
 ## 🎮 How to Play
@@ -26,7 +26,6 @@ This version includes:
 ## 🌐 Play It Live
 
 **👉 [Click here to play](https://daelenwall.github.io/Daelen_Pong/)**  
-*(Replace with your actual GitHub Pages link once deployed)*
 
 ## 🧠 How It Works
 
