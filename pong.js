@@ -15,6 +15,7 @@ let bgMusic;
 let pointSound;
 let musicStarted = false;
 let gameStarted = false;
+let rallyCount= 0;
 
 function preload() {
   bgMusic = loadSound("background.mp3");
@@ -22,7 +23,9 @@ function preload() {
 }
 
 function setup() {
-  createCanvas(800, 600);
+  let canvas = createCanvas(800, 600);
+  canvas.parent('game-container');  // ✅ Attach canvas to the correct container
+
   leftPaddle = new Paddle(20);
   rightPaddle = new Paddle(width - 30);
   resetGame();
@@ -30,6 +33,10 @@ function setup() {
 
 function draw() {
   background(0);
+  noFill();
+  stroke(255);
+  strokeWeight(2);
+  rect(1, 1, width - 2, height - 2);
   drawCenterLine();
   drawScores();
 
@@ -143,11 +150,13 @@ function drawScores() {
 function checkCollisions() {
   if (ball.collides(leftPaddle)) {
     leftPaddle.speed += 0.5;
+    rallyCount++;
     ball.bounce(true); // ball handles its own speed += 1
   }
 
   if (ball.collides(rightPaddle)) {
     rightPaddle.speed += 0.5;
+    rallyCount++;
     ball.bounce(false);
   }
 }
@@ -158,6 +167,7 @@ function checkScore() {
     pointSound.play();
     leftPaddle.resetSpeed();
     rightPaddle.resetSpeed();
+    rallyCount = 0;
     if (rightScore === winningScore) {
       winner = 'right';
     }
@@ -167,6 +177,7 @@ function checkScore() {
     pointSound.play();
     leftPaddle.resetSpeed();
     rightPaddle.resetSpeed();
+    rallyCount = 0;
     if (leftScore === winningScore) {
       winner = 'left';
     }
@@ -230,6 +241,11 @@ class Ball {
     noStroke();
     fill(255);
     ellipse(this.x, this.y, this.r * 2);
+    textSize(24);
+    fill(255);
+    textAlign(CENTER);
+    text(`Rally: ${rallyCount}`, width / 2, height + 20);
+    document.getElementById("rallyDisplay").innerText = `Rally: ${rallyCount}`;
   }
 
   collides(paddle) {
