@@ -16,6 +16,7 @@ let pointSound;
 let musicStarted = false;
 let gameStarted = false;
 let rallyCount= 0;
+let longestRally = 0;
 
 function preload() {
   bgMusic = loadSound("background.mp3");
@@ -167,20 +168,35 @@ function checkScore() {
     pointSound.play();
     leftPaddle.resetSpeed();
     rightPaddle.resetSpeed();
+  
+  if (rallyCount > longestRally) {
+    longestRally = rallyCount;
+  }
+
     rallyCount = 0;
+
     if (rightScore === winningScore) {
       winner = 'right';
     }
+
     ball = new Ball(true);
+
   } else if (ball.x > width) {
     leftScore++;
     pointSound.play();
     leftPaddle.resetSpeed();
     rightPaddle.resetSpeed();
+
+  if (rallyCount > longestRally) {
+    longestRally = rallyCount;
+  }
+
     rallyCount = 0;
+
     if (leftScore === winningScore) {
       winner = 'left';
     }
+
     ball = new Ball(false);
   }
 }
@@ -245,7 +261,9 @@ class Ball {
     fill(255);
     textAlign(CENTER);
     text(`Rally: ${rallyCount}`, width / 2, height + 20);
+
     document.getElementById("rallyDisplay").innerText = `Rally: ${rallyCount}`;
+    document.getElementById("longestRallyDisplay").innerText = `Longest Rally: ${longestRally}`;
   }
 
   collides(paddle) {
