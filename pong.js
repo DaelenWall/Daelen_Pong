@@ -262,8 +262,14 @@ class Ball {
     textAlign(CENTER);
     text(`Rally: ${rallyCount}`, width / 2, height + 20);
 
-    document.getElementById("rallyDisplay").innerText = `Rally: ${rallyCount}`;
-    document.getElementById("longestRallyDisplay").innerText = `Longest Rally: ${longestRally}`;
+  const rallyEl = document.getElementById("rallyDisplay");
+  const longestEl = document.getElementById("longestRallyDisplay");
+
+  if (rallyEl && longestEl) {
+    rallyEl.innerText = `Rally: ${rallyCount}`;
+    longestEl.innerText = `Longest Rally: ${longestRally}`;
+  }
+
   }
 
   collides(paddle) {
