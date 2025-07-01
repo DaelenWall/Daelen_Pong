@@ -150,13 +150,13 @@ function drawScores() {
 
 function checkCollisions() {
   if (ball.collides(leftPaddle)) {
-    leftPaddle.speed += 0.5;
+    leftPaddle.speed += 0.75;
     rallyCount++;
     ball.bounce(true); // ball handles its own speed += 1
   }
 
   if (ball.collides(rightPaddle)) {
-    rightPaddle.speed += 0.5;
+    rightPaddle.speed += 0.75;
     rallyCount++;
     ball.bounce(false);
   }
